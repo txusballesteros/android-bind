@@ -1,31 +1,88 @@
-/**
-   Copyright Mob&Me 2012 (@MobAndMe)
-
-   Licensed under the LGPL Lesser General Public License, Version 3.0 (the "License"),  
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.gnu.org/licenses/lgpl.html
-
-   Unless required by applicable law or agreed to in writing, software 
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-   
-   Website: http://adaframework.com
-   Contact: Txus Ballesteros <txus.ballesteros@mobandme.com>
-*/
-
 package com.mobandme.android.bind.parser;
 
-/**
- * Data parser class.
- * @version 2.4.3
- * @author Mob&Me
- */
+import com.mobandme.android.bind.compiler.Compiler;
+
 public class DataParser {
-	public Object parseValue(Object pOriginalValue, int pDirection) {
-		return pOriginalValue;
-	}
+
+    public Object parse(Compiler.Mapping mapping, Object value) {
+        return onParse(mapping, value);
+    }
+
+    public Object onParse(Compiler.Mapping mapping, Object value) {
+        Object result = value;
+
+        if (value != null) {
+            final Class<?> fieldType = mapping.getField().getType();
+
+            if (fieldType == String.class) {
+                if (value.getClass() == String.class) {
+                    result = (String)value;
+                } else {
+                    result = value.toString();
+                }
+            } else if (fieldType == Integer.class || fieldType == int.class) {
+                if (value.getClass() == String.class) {
+                    if (!((String)value).trim().equals("")) {
+                        result = Integer.parseInt((String)value);
+                    }
+                } else {
+                    if (!((String)value).trim().equals("")) {
+                        result = Integer.parseInt(value.toString());
+                    }
+                }
+            } else if (fieldType == Long.class || fieldType == long.class) {
+                if (value.getClass() == String.class) {
+                    if (!((String)value).trim().equals("")) {
+                        result = Long.parseLong((String)value);
+                    }
+                } else {
+                    if (!((String)value).trim().equals("")) {
+                        result = Long.parseLong(value.toString());
+                    }
+                }
+            } else if (fieldType == Double.class || fieldType == double.class) {
+                if (value.getClass() == String.class) {
+                    if (!((String)value).trim().equals("")) {
+                        result = Double.parseDouble((String)value);
+                    }
+                } else {
+                    if (!((String)value).trim().equals("")) {
+                        result = Double.parseDouble(value.toString());
+                    }
+                }
+            }  else if (fieldType == Float.class || fieldType == float.class) {
+                if (value.getClass() == String.class) {
+                    if (!((String)value).trim().equals("")) {
+                        result = Float.parseFloat((String)value);
+                    }
+                } else {
+                    if (!((String)value).trim().equals("")) {
+                        result = Float.parseFloat(value.toString());
+                    }
+                }
+            }  else if (fieldType == Short.class || fieldType == short.class) {
+                if (value.getClass() == String.class) {
+                    if (!((String)value).trim().equals("")) {
+                        result = Short.parseShort((String)value);
+                    }
+                } else {
+                    if (!((String)value).trim().equals("")) {
+                        result = Short.parseShort(value.toString());
+                    }
+                }
+            }  else if (fieldType == Boolean.class || fieldType == boolean.class || fieldType == android.R.bool.class) {
+                if (value.getClass() == String.class) {
+                    if (!((String)value).trim().equals("")) {
+                        result = Boolean.parseBoolean((String)value);
+                    }
+                } else {
+                    if (value.toString().trim() != "") {
+                        result = Boolean.parseBoolean(value.toString());
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }

@@ -7,7 +7,9 @@ import com.mobandme.android.bind.Binder;
 import com.mobandme.android.bind.annotations.BindTo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public final class Compiler {
 
@@ -15,7 +17,6 @@ public final class Compiler {
 
     private Object object;
     private ViewGroup rootView;
-    private int direction;
     private HashMap<String, Mapping> mappings;
 
     //endregion
@@ -34,6 +35,15 @@ public final class Compiler {
         return this;
     }
 
+    public Set<String> getMappingsList() {
+        return this.mappings.keySet();
+    }
+
+    public Mapping getMappig(String field) {
+        return this.mappings.get(field);
+    }
+
+    //region "PRIVATE METHODS"
 
     private void readObjectConfiguration() {
         Field[] declaredFields = this.object.getClass().getDeclaredFields();
@@ -45,17 +55,19 @@ public final class Compiler {
                 View view = extractView(viewId);
                 Method getterMethod = extractGetterMethod(this.object, field, bindAnnotation);
                 Method setterMethod = extractSetterMethod(this.object, field, bindAnnotation);
+                Class binder = bindAnnotation.binder();
+                Class parser = bindAnnotation.parser();
 
-                Mapping mapping = new Mapping(field, view, getterMethod, setterMethod);
+                Mapping mapping = new Mapping(field, view, getterMethod, setterMethod, binder, parser);
                 this.mappings.put(fieldName, mapping);
             }
         }
     }
 
     private Method extractGetterMethod(Object object, Field field, BindTo bind) {
-        Method result = null;
+        Method result;
 
-        String methodName = null;
+        String methodName;
         if (bind.getter().equals(""))
             if (field.getType() != Boolean.class)
                 methodName = String.format("get%s", field.getName());
@@ -69,9 +81,9 @@ public final class Compiler {
     }
 
     private Method extractSetterMethod(Object object, Field field, BindTo bind) {
-        Method result = null;
+        Method result;
 
-        String methodName = null;
+        String methodName;
         if (bind.setter().equals(""))
             methodName = String.format("set%s", field.getName());
         else
@@ -82,12 +94,12 @@ public final class Compiler {
     }
 
     private Method extractMethod(Class objectClass, String methodName, Class[] argumentsTypes) {
-        Method result = null;
+        Method result;
 
         try {
             result = objectClass.getMethod(methodName, argumentsTypes);
         } catch (Exception error) {
-            new RuntimeException(String.format("Error getting method %s", methodName), error);
+            throw new RuntimeException(String.format("Error accessing to method method %s", methodName), error);
         }
 
         return result;
@@ -97,21 +109,36 @@ public final class Compiler {
         return this.rootView.findViewById(viewId);
     }
 
-    //region "PRIVATE CLASES"
+    //endregion
 
-    protected class Mapping {
+    //region "EMBEDDED CLASSES"
+
+    public class Mapping {
 
         private Field field;
         private View  view;
         private Method getter;
         private Method setter;
+        private Class  binder;
+        private Class  parser;
 
-        public Mapping(Field field, View view, Method getter, Method setter) {
+        public Field getField() { return field; }
+        public View getView() { return view; }
+        public Method getGetter() { return getter; }
+        public Method getSetter() { return setter; }
+        public Class getBinder() { return binder; }
+        public Class getParser() { return parser; }
+
+        public Mapping(Field field, View view, Method getter, Method setter, Class binder, Class parser) {
             this.field = field;
             this.view = view;
             this.getter = getter;
             this.setter = setter;
+            this.binder = binder;
+            this.parser = parser;
         }
+
+
     }
 
     //endregion

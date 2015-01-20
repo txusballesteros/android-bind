@@ -2,7 +2,11 @@ package com.mobandme.android.bind;
 
 import android.view.ViewGroup;
 
+import com.mobandme.android.bind.binder.DataBinder;
+import com.mobandme.android.bind.binder.BinderFactory;
 import com.mobandme.android.bind.compiler.Compiler;
+
+import java.util.Set;
 
 public class Binder {
 
@@ -98,20 +102,47 @@ public class Binder {
     //region "PRIVATE VARIABLES"
 
     private Compiler compiler;
+    private Builder builder;
 
     //endregion
 
+    //region "PRIVATE METHODS"
+
     private Binder(Builder builder) {
-        if (builder.getBindDirection() == Binder.DIRECTION_OBJECT_TO_VIEWS)
-            this.compiler = new Compiler(builder.getSource(), (ViewGroup)builder.getDestination()).compile();
-        else
-            this.compiler = new Compiler(builder.getDestination(), (ViewGroup)builder.getSource()).compile();
+        this.builder = builder;
+
+        initializeCompiler();
     }
+
+    private void initializeCompiler() {
+        if (builder.getBindDirection() == Binder.DIRECTION_OBJECT_TO_VIEWS)
+            this.compiler = new Compiler(builder.getSource(), (ViewGroup)builder.getDestination());
+        else
+            this.compiler = new Compiler(builder.getDestination(), (ViewGroup)builder.getSource());
+
+        this.compiler.compile();
+    }
+
+    private Object getObject() {
+        if (this.builder.getBindDirection() == DIRECTION_OBJECT_TO_VIEWS)
+            return this.builder.getSource();
+        else
+            return this.builder.getDestination();
+    }
+
+    //endregion
 
     /**
      * Use this method to start the binding process.
      */
     public void bind() {
+        Set<String> mappingsList = this.compiler.getMappingsList();
+        for(String mappingKey : mappingsList) {
+            Compiler.Mapping mapping = this.compiler.getMappig(mappingKey);
 
+            Object object = getObject();
+            DataBinder binder = BinderFactory.getBinder(mapping);
+            binder.bind(mapping, object, this.builder.getBindDirection());
+        }
     }
 }
