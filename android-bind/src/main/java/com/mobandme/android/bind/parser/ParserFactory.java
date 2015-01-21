@@ -8,7 +8,15 @@ public class ParserFactory {
 
         try {
             result = (DataParser)mapping.getParser().newInstance();
-        } catch (Exception error) {
+
+            if (result instanceof DataParser == false) {
+                String fieldName = mapping.getField().getName();
+                throw new IllegalArgumentException(String.format("The parser defined by the field %s not extends of DataParser class.", fieldName));
+            }
+
+        } catch (InstantiationException error) {
+            throw new RuntimeException(error);
+        } catch (IllegalAccessException error) {
             throw new RuntimeException(error);
         }
 

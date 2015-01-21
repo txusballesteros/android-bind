@@ -1,7 +1,9 @@
 package com.mobandme.android.bind.annotations;
 
 import com.mobandme.android.bind.binder.DataBinder;
-import com.mobandme.android.bind.parser.DataParser;
+import com.mobandme.android.bind.binder.GenericDataBinder;
+import com.mobandme.android.bind.parser.GenericDataParser;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -32,12 +34,12 @@ public @interface BindTo {
 	 * Define the custom DataBinder Class.
 	 * @return
 	 */
-	public Class<?> binder() default DataBinder.class;
+	public Class<?> binder() default GenericDataBinder.class;
 	
 	
 	/**
 	 * Define the custom dapa parser class.
 	 * @return
 	 */
-	public Class<?> parser()  default DataParser.class;
+	public Class<?> parser()  default GenericDataParser.class;
 }

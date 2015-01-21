@@ -3,11 +3,9 @@ package com.mobandme.android.bind.compiler;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobandme.android.bind.Binder;
 import com.mobandme.android.bind.annotations.BindTo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -25,8 +23,6 @@ public final class Compiler {
         this.object = object;
         this.rootView = rootView;
         this.mappings = new HashMap<String, Mapping>();
-
-        readObjectConfiguration();
     }
 
     public Compiler compile() {
@@ -53,60 +49,84 @@ public final class Compiler {
                 String fieldName = field.getName();
                 int viewId = bindAnnotation.viewId();
                 View view = extractView(viewId);
-                Method getterMethod = extractGetterMethod(this.object, field, bindAnnotation);
-                Method setterMethod = extractSetterMethod(this.object, field, bindAnnotation);
-                Class binder = bindAnnotation.binder();
-                Class parser = bindAnnotation.parser();
 
-                Mapping mapping = new Mapping(field, view, getterMethod, setterMethod, binder, parser);
-                this.mappings.put(fieldName, mapping);
+                if (view != null) {
+                    Method getterMethod = extractGetterMethod(this.object, field, bindAnnotation);
+                    Method setterMethod = extractSetterMethod(this.object, field, bindAnnotation);
+                    Class binder = bindAnnotation.binder();
+                    Class parser = bindAnnotation.parser();
+
+                    Mapping mapping = new Mapping(field, view, getterMethod, setterMethod, binder, parser);
+                    this.mappings.put(fieldName, mapping);
+                }
             }
         }
     }
 
     private Method extractGetterMethod(Object object, Field field, BindTo bind) {
-        Method result;
+        Method result = null;
 
-        String methodName;
-        if (bind.getter().equals(""))
-            if (field.getType() != Boolean.class)
-                methodName = String.format("get%s", field.getName());
-            else
-                methodName = String.format("is%s", field.getName());
-        else
-            methodName = bind.getter();
+        if (bind.getter() != null) {
+            String methodName;
+            if (bind.getter().equals("")) {
+                String methodSuffix = capitalize(field.getName());
+                if (field.getType() != Boolean.class)
+                    methodName = String.format("get%s", methodSuffix);
+                else
+                    methodName = String.format("is%s", methodSuffix);
+            } else {
+                methodName = bind.getter();
+            }
 
-        result = extractMethod(object.getClass(), methodName, null);
+            result = extractMethod(object.getClass(), methodName, null);
+        }
         return result;
     }
 
     private Method extractSetterMethod(Object object, Field field, BindTo bind) {
-        Method result;
+        Method result = null;
 
-        String methodName;
-        if (bind.setter().equals(""))
-            methodName = String.format("set%s", field.getName());
-        else
-            methodName = bind.setter();
+        if (bind.setter() != null) {
+            String methodName;
 
-        result = extractMethod(object.getClass(), methodName, new Class[]{field.getType()});
+            if (bind.setter().equals("")) {
+                String methodSuffix = capitalize(field.getName());
+                methodName = String.format("set%s", methodSuffix);
+            } else {
+                methodName = bind.setter();
+            }
+
+            result = extractMethod(object.getClass(), methodName, new Class[]{field.getType()});
+        }
+
         return result;
     }
 
     private Method extractMethod(Class objectClass, String methodName, Class[] argumentsTypes) {
-        Method result;
+        Method result = null;
 
         try {
             result = objectClass.getMethod(methodName, argumentsTypes);
-        } catch (Exception error) {
-            throw new RuntimeException(String.format("Error accessing to method method %s", methodName), error);
-        }
+        } catch (NoSuchMethodException error) { }
 
         return result;
     }
 
     private View extractView(int viewId) {
         return this.rootView.findViewById(viewId);
+    }
+
+    private String capitalize(String source) {
+        String result = source.trim();
+
+        if (result != null && !result.equals("")) {
+            if (result.length() > 1) {
+                result = Character.toUpperCase(result.charAt(0)) + result.substring(1);
+            } else {
+                result = result.toUpperCase();
+            }
+        }
+        return result;
     }
 
     //endregion
