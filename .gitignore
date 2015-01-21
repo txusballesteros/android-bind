@@ -34,7 +34,6 @@ local.properties
 /*/*/build
 build
 /*/*/production
-/*/*/gradle-wrapper.jar
 *.iml
 *.iws
 *.ipr
