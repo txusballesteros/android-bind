@@ -55,6 +55,13 @@ public class Binder {
          */
         public Integer getBindDirection() { return this.bindDirection; }
 
+        public Integer getBindDirectionReverse() {
+            if (this.bindDirection == DIRECTION_OBJECT_TO_VIEWS)
+                return DIRECTION_VIEWS_TO_OBJECT;
+            else
+                return DIRECTION_OBJECT_TO_VIEWS;
+        }
+
         /**
          * Use this method to make a Binder instance.
          * @return An instance of Binder.
@@ -106,6 +113,26 @@ public class Binder {
 
     //endregion
 
+    //region "PUBLIC METHODS"
+
+    /**
+     * Use this method to start the binding process.
+     */
+    public void bind() {
+        int direction = this.builder.getBindDirection();
+        bind(direction);
+    }
+
+    /**
+     * Use this method to start a reversed binding progress.
+     */
+    public void bindReverse() {
+        int direction = this.builder.getBindDirectionReverse();
+        bind(direction);
+    }
+
+    //endregion
+
     //region "PRIVATE METHODS"
 
     private Binder(Builder builder) {
@@ -130,19 +157,16 @@ public class Binder {
             return this.builder.getDestination();
     }
 
-    //endregion
-
-    /**
-     * Use this method to start the binding process.
-     */
-    public void bind() {
+    private void bind(int direction) {
         Set<String> mappingsList = this.compiler.getMappingsList();
         for(String mappingKey : mappingsList) {
             Compiler.Mapping mapping = this.compiler.getMappig(mappingKey);
 
             Object modelObject = getModelObject();
             DataBinder binder = BinderFactory.getBinder(mapping);
-            binder.bind(mapping, modelObject, this.builder.getBindDirection());
+            binder.bind(mapping, modelObject, direction);
         }
     }
+
+    //endregion
 }

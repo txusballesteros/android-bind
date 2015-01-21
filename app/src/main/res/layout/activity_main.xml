@@ -10,28 +10,54 @@
     android:orientation="vertical"
     tools:context="com.mobandme.android.bind.MainActivity">
 
-  <TextView
+  <EditText
       android:id="@+id/name"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Field1"/>
 
-  <TextView
+  <EditText
         android:id="@+id/surname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Field2"/>
 
-  <TextView
-        android:id="@+id/address"
+  <EditText
+        android:id="@+id/dateOfBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Field3"/>
 
+  <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Field4"/>
+
+  <EditText
+        android:id="@+id/salary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Field5"/>
+
+  <CheckBox
+      android:id="@+id/active"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Active"
+      android:textAlignment="inherit"
+      android:singleLine="true" />
+
   <Button
-      android:id="@+id/bind"
+      android:id="@+id/bind1"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Bind"/>
+      android:text="Bind Model to View"/>
+
+  <Button
+        android:id="@+id/bind2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bind View to Model"/>
 
 </LinearLayout>

@@ -23,7 +23,7 @@ public class GenericDataBinder extends DataBinder {
      */
     public void onBind(Compiler.Mapping mapping, Object object, View view, int direction) {
         Object value = getValue(mapping, object, view, direction);
-        Object parsedValue = parseValue(mapping, value);
+        Object parsedValue = parseValue(mapping, value, direction);
 
         if (direction == Binder.DIRECTION_OBJECT_TO_VIEWS)
             setViewValue(mapping, view, parsedValue);
@@ -31,8 +31,8 @@ public class GenericDataBinder extends DataBinder {
             setValue(mapping, object, parsedValue);
     }
 
-    private Object parseValue(Compiler.Mapping mapping, Object value) {
-        return ParserFactory.getParser(mapping).parse(mapping, value);
+    private Object parseValue(Compiler.Mapping mapping, Object value, int direction) {
+        return ParserFactory.getParser(mapping).parse(mapping, value, direction);
     }
 
     /**
@@ -61,9 +61,7 @@ public class GenericDataBinder extends DataBinder {
      * @param value Value to be set.
      */
     private void setViewValue(Compiler.Mapping mapping, View view, Object value) {
-        if (view instanceof TextView)
-            setViewValue((TextView)view, (String)value);
-        else if (view instanceof CheckBox)
+        if (view instanceof CheckBox)
             setViewValue((CheckBox)view, (boolean)value);
         else if (view instanceof SeekBar)
             setViewValue((SeekBar)view, (int)value);
@@ -75,6 +73,8 @@ public class GenericDataBinder extends DataBinder {
             setViewValue((RadioButton)view, (boolean)value);
         else if (view instanceof ToggleButton)
             setViewValue((ToggleButton)view, (boolean)value);
+        else if (view instanceof TextView)
+            setViewValue((TextView)view, (String)value);
     }
 
     private void setViewValue(TextView view, String value) { view.setText(value); }
@@ -114,7 +114,8 @@ public class GenericDataBinder extends DataBinder {
             }
 
         } catch (Exception error) {
-            throw new RuntimeException(error);
+            String fieldName = mapping.getField().getName();
+            throw new RuntimeException(String.format("Error getting value of field %s.", fieldName), error);
         }
 
         return result;

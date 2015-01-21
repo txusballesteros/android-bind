@@ -158,7 +158,13 @@ public final class Compiler {
             this.parser = parser;
         }
 
-
+        @Override
+        public String toString() {
+            if (field != null)
+                return field.getName();
+            else
+                return super.toString();
+        }
     }
 
     //endregion

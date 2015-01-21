@@ -1,13 +1,11 @@
 package com.mobandme.android.bind.annotations;
 
-import com.mobandme.android.bind.binder.DataBinder;
-import com.mobandme.android.bind.binder.GenericDataBinder;
-import com.mobandme.android.bind.parser.GenericDataParser;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import com.mobandme.android.bind.binder.GenericDataBinder;
+import com.mobandme.android.bind.parser.GenericDataParser;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,13 +17,13 @@ public @interface BindTo {
 	public int viewId();
 	
 	/**
-	 * Define the custom property getter suffix, Example: getXXXX() => getMySufix()
+	 * Define the custom property getter.
 	 * @return
 	 */
 	public String getter() default "";
 	
 	/**
-	 * Define the custom property setter suffix, Example: setXXXX(Object pVar) => setMySufix(Object pVar)
+	 * Define the custom property setter.
 	 * @return
 	 */
 	public String setter() default "";

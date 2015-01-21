@@ -5,7 +5,7 @@ import com.mobandme.android.bind.compiler.Compiler;
 public class GenericDataParser extends DataParser {
 
     @Override
-    public Object onParse(Compiler.Mapping mapping, Object value) {
+    public Object onParse(Compiler.Mapping mapping, Object value, int direction) {
         Object result = value;
 
         if (value != null) {
