@@ -65,8 +65,8 @@ create you own data parser for example to format this date before to show this o
 First, create your own data parser class.
 
 ```java
-//IMPORTANT!!, don't forget extend your class from com.mobandme.android.bind.parser.DataParser class.
 
+//IMPORTANT!!, don't forget extend your class from com.mobandme.android.bind.parser.DataParser class.
 class CalendarParser extends DataParser {
 
     @Override
