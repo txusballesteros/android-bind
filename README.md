@@ -105,7 +105,46 @@ class MyModel {
     ...
 }
 ```
- 
+
+### Configuring a custom Data Binder
+
+When you use for example a custom views or a view not supported by default by the library, the you need a custom Data Binder. This class allow to 
+manage the logic between de data and the view.
+
+First, create your own data binder class.
+
+```java
+
+//IMPORTANT!!, don't forget extend your class from com.mobandme.android.bind.binder.DataBinder class.
+class MyCustomViewBinder extends DataBinder {
+
+    @Override
+    public void onBind(Compiler.Mapping mapping, Object object, View view, int direction) {
+        String value = mapping.getField()...
+        
+        if (direction == Binder.DIRECTION_OBJECT_TO_VIEWS) {
+            ((MyCustomView)view).setMyCustomProperty(value);
+        } else {
+             mapping.getField().set(object, ((MyCustomView)view).getMyCustomProperty());
+        }
+    }
+    
+    ...
+}
+```
+
+Second, configure your custom data binder on your model class fields. And that is all.
+
+```java
+class MyModel {
+
+    @BindTo(viewId = R.id.myCustomView, binder = MyCustomViewBinder.class )
+    private Calendar dateOfBirth;
+
+    ...
+}
+```
+
 ## License
 
 Copyright 2015 Txus Ballesteros
