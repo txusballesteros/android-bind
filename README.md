@@ -18,7 +18,7 @@ class MyModel {
     ...
 }
 ```
-Configure your model class using @BindTo annotation on your model class to configure binding between your model field and your UI View.
+Use @BindTo annotation on your model class fields to configure binding between your model and your UI views.
 
 
 ```java
