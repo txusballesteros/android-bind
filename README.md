@@ -8,6 +8,13 @@ This library helps to you on the process related to data binds between your mode
 
 ## How to use
 
+```java
+dependencies {
+    ...
+    compile 'com.mobandme:android-bind:1.0.1'
+}
+```
+Add the library dependency to your build.gradle file.
 
 ```java
 class MyModel {
