@@ -1,6 +1,6 @@
 # Android Binding Library
 
-This library helps to you on process related to data binds between your model entities and your application UI, offering a bidirectional data channel.
+This library helps to you on the process related to data binds between your model entities and your application UI, offering a bidirectional data channel.
 
 ## Version
 
