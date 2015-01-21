@@ -61,7 +61,7 @@ the data. And you will need to call bindReverse method to invert the direction o
 ### Configuring a custom Data Parser
 
 Occasionally you will need adapt the data stored in your model to show this on your app UI or vice-versa. For example, think on a Calendar field. Well, you can 
-create you own data parser for example to format this date before to show this on the ui.
+create your own data parser for example to format this date before to show this on the ui.
 
 
 First, create your own data parser class.
