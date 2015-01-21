@@ -11,7 +11,7 @@ This library helps to you on the process related to data binds between your mode
 ```java
 dependencies {
     ...
-    compile 'com.mobandme:android-bind:1.0.1'
+    compile 'com.mobandme:android-bind:1.0+'
 }
 ```
 Add the library dependency to your build.gradle file.
