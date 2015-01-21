@@ -28,11 +28,14 @@ package com.mobandme.android.bind.compiler;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobandme.android.bind.annotations.BindTo;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
+import java.util.HashMap;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Set;
+import com.mobandme.android.bind.annotations.BindTo;
+import com.mobandme.android.bind.annotations.Bindings;
 
 public final class Compiler {
 
@@ -40,28 +43,23 @@ public final class Compiler {
 
     private Object object;
     private ViewGroup rootView;
-    private HashMap<String, Mapping> mappings;
+    private Collection<Mapping> mappings;
 
     //endregion
 
     public Compiler(Object object, ViewGroup rootView) {
         this.object = object;
         this.rootView = rootView;
-        this.mappings = new HashMap<String, Mapping>();
+        this.mappings = new ArrayList<>();
     }
 
     public Compiler compile() {
         readObjectConfiguration();
-
         return this;
     }
 
-    public Set<String> getMappingsList() {
-        return this.mappings.keySet();
-    }
-
-    public Mapping getMappig(String field) {
-        return this.mappings.get(field);
+    public Collection<Mapping> getMappingsList() {
+        return this.mappings;
     }
 
     //region "PRIVATE METHODS"
@@ -69,23 +67,44 @@ public final class Compiler {
     private void readObjectConfiguration() {
         Field[] declaredFields = this.object.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
-            BindTo bindAnnotation = field.getAnnotation(BindTo.class);
-            if (bindAnnotation != null) {
-                String fieldName = field.getName();
-                int viewId = bindAnnotation.viewId();
-                View view = extractView(viewId);
 
-                if (view != null) {
-                    Method getterMethod = extractGetterMethod(this.object, field, bindAnnotation);
-                    Method setterMethod = extractSetterMethod(this.object, field, bindAnnotation);
-                    Class binder = bindAnnotation.binder();
-                    Class parser = bindAnnotation.parser();
-
-                    Mapping mapping = new Mapping(field, view, getterMethod, setterMethod, binder, parser);
-                    this.mappings.put(fieldName, mapping);
+            Bindings bindingsAnnotation = field.getAnnotation(Bindings.class);
+            if (bindingsAnnotation != null) {
+                BindTo[] bindsToAnnotations = bindingsAnnotation.value();
+                if (bindsToAnnotations != null && bindsToAnnotations.length > 0) {
+                    for (BindTo bindToAnnotation : bindsToAnnotations) {
+                        Mapping mapping = extractMapping(field, bindToAnnotation);
+                        if (mapping != null)
+                            this.mappings.add(mapping);
+                    }
+                }
+            } else {
+                BindTo bindToAnnotation = field.getAnnotation(BindTo.class);
+                if (bindToAnnotation != null) {
+                    Mapping mapping = extractMapping(field, bindToAnnotation);
+                    if (mapping != null)
+                        this.mappings.add(mapping);
                 }
             }
         }
+    }
+
+    private Mapping extractMapping(Field field, BindTo bindToAnnotation) {
+        Mapping result = null;
+
+        int viewId = bindToAnnotation.viewId();
+        View view = extractView(viewId);
+
+        if (view != null) {
+            Method getterMethod = extractGetterMethod(this.object, field, bindToAnnotation);
+            Method setterMethod = extractSetterMethod(this.object, field, bindToAnnotation);
+            Class binder = bindToAnnotation.binder();
+            Class parser = bindToAnnotation.parser();
+
+            result = new Mapping(field, view, getterMethod, setterMethod, binder, parser);
+        }
+
+        return result;
     }
 
     private Method extractGetterMethod(Object object, Field field, BindTo bind) {
@@ -161,7 +180,7 @@ public final class Compiler {
     public class Mapping {
 
         private Field field;
-        private View  view;
+        private View view;
         private Method getter;
         private Method setter;
         private Class  binder;

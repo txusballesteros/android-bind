@@ -31,6 +31,7 @@ import com.mobandme.android.bind.binder.DataBinder;
 import com.mobandme.android.bind.binder.BinderFactory;
 import com.mobandme.android.bind.compiler.Compiler;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class Binder {
@@ -181,10 +182,8 @@ public class Binder {
     }
 
     private void bind(int direction) {
-        Set<String> mappingsList = this.compiler.getMappingsList();
-        for(String mappingKey : mappingsList) {
-            Compiler.Mapping mapping = this.compiler.getMappig(mappingKey);
-
+        Collection<Compiler.Mapping> mappingsList = this.compiler.getMappingsList();
+        for(Compiler.Mapping mapping : mappingsList) {
             Object modelObject = getModelObject();
             DataBinder binder = BinderFactory.getBinder(mapping);
             binder.bind(mapping, modelObject, direction);
