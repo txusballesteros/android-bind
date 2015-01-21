@@ -4,7 +4,7 @@ This library helps to you on the process related to data binds between your mode
 
 ## Version
 
-1.0.0
+[ ![Download](https://api.bintray.com/packages/txusballesteros/maven/android-binding/images/download.svg) ](https://bintray.com/txusballesteros/maven/android-binding/_latestVersion)
 
 ## How to use
 
