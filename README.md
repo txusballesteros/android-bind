@@ -8,6 +8,7 @@ This library helps to you on the process related to data binds between your mode
 
 ## How to use
 
+
 ```java
 class MyModel {
 
@@ -17,7 +18,8 @@ class MyModel {
     ...
 }
 ```
-Use @BindTo annotation on your model class to configure binding between your model field and your UI View.
+Configure your model class using @BindTo annotation on your model class to configure binding between your model field and your UI View.
+
 
 ```java
 public class MainActivity extends Activity {
