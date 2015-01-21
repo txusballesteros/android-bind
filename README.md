@@ -41,11 +41,11 @@ public class MainActivity extends Activity {
      protected void onResume() {
         ...
         
-        //Use this code to init the data binding process. 
+        //Use this code to start the data binding process.
         //  In this case execute the binding between your Model Class and your app UI.
         myModelBinder.bind();
         
-        //Use this code to init the reversed data binding process.
+        //Use this code to start the reversed data binding process.
         //  In this case execute the binding between your app UI and your Model Class.
         myModelBinder.bindReverse();
      }
