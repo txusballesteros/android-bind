@@ -6,7 +6,7 @@ apply plugin: 'com.jfrog.bintray'
 version = "1.0.0"
 def siteUrl = 'https://github.com/txusballesteros/android-binding'    // Homepage URL of the library
 def gitUrl = 'https://github.com/txusballesteros/android-binding.git' // Git repository URL
-group = "txusballesteros"                                             // Maven Group ID for the artifact
+group = "com.mobandme"                                                // Maven Group ID for the artifact
 
 android {
     compileSdkVersion 21
