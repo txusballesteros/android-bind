@@ -156,7 +156,8 @@ class MyModel {
 
 ## Proguard Configuration
 
-If you use ProGuard to obfuscate your project, don't forget put this configuration into your proguard-rules.pro file.
+If you use Proguard to obfuscate your project, don't forget put this configuration into your proguard-rules.pro file.
+
 ```java
 -keep class com.mobandme.android.bind.** { *; }
 -keep class * extends com.mobandme.android.bind.parser.DataParser { *; }
@@ -166,6 +167,15 @@ If you use ProGuard to obfuscate your project, don't forget put this configurati
     @com.mobandme.android.bind.annotations.BindTo *;
     @com.mobandme.android.bind.annotations.Bindings *;
     @com.mobandme.android.bind.annotations.BindableModel *;
+}
+```
+
+**IMPORTANT!!, If you use Proguard, you will need mark your model classes with @BindableModel annotation.
+
+```java
+@BindableModel
+public class MyModel {
+    ...
 }
 ```
 
