@@ -170,7 +170,7 @@ If you use Proguard to obfuscate your project, don't forget put this configurati
 }
 ```
 
-**IMPORTANT!!, If you use Proguard, you will need mark your model classes with @BindableModel annotation.
+**IMPORTANT!!, If you use Proguard, you will need mark your model classes with @BindableModel annotation.**
 
 ```java
 @BindableModel
