@@ -3,7 +3,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 // This is the library version used when deploying the artifact
-version = "1.0.1"
+version = "1.0.2"
 def siteUrl = 'https://github.com/txusballesteros/android-binding'    // Homepage URL of the library
 def gitUrl = 'https://github.com/txusballesteros/android-binding.git' // Git repository URL
 group = "com.mobandme"                                                // Maven Group ID for the artifact
