@@ -144,15 +144,47 @@ public class Binder {
      */
     public void bind() {
         int direction = this.builder.getBindDirection();
-        bind(direction);
+        Object modelObject = getModelObject();
+        bind(direction, modelObject);
     }
 
+    /**
+     * Use this method to start the binding process with a specific object of your model.
+     * @param modelObject Specific model object.
+     */
+    public void bindWithModel(Object modelObject) {
+        if (modelObject == null)
+            throw new IllegalArgumentException("The modelObject argument cannot be null.");
+        
+        if (modelObject.getClass() != getModelObject().getClass())
+            throw new IllegalArgumentException("The model object type not is valid. Please pass an object of the same type that you passed on your Binder.Builder.");
+        
+        int direction = this.builder.getBindDirection();
+        bind(direction, modelObject);
+    }
+    
     /**
      * Use this method to start a reversed binding progress.
      */
     public void bindReverse() {
         int direction = this.builder.getBindDirectionReverse();
-        bind(direction);
+        Object modelObject = getModelObject();
+        bind(direction, modelObject);
+    }
+
+    /**
+     * Use this method to start a reversed binding progress with a specific object of your model.
+     * @param modelObject Specific model object.
+     */
+    public void bindReverseWithModel(Object modelObject) {
+        if (modelObject == null)
+            throw new IllegalArgumentException("The modelObject argument cannot be null.");
+
+        if (modelObject.getClass() != getModelObject().getClass())
+            throw new IllegalArgumentException("The model object type not is valid. Please pass an object of the same type that you passed on your Binder.Builder.");
+        
+        int direction = this.builder.getBindDirectionReverse();
+        bind(direction, modelObject);
     }
 
     //endregion
@@ -181,10 +213,9 @@ public class Binder {
             return this.builder.getDestination();
     }
 
-    private void bind(int direction) {
+    private void bind(int direction, Object modelObject) {
         Collection<Compiler.Mapping> mappingsList = this.compiler.getMappingsList();
         for(Compiler.Mapping mapping : mappingsList) {
-            Object modelObject = getModelObject();
             DataBinder binder = BinderFactory.getBinder(mapping);
             binder.bind(mapping, modelObject, direction);
         }

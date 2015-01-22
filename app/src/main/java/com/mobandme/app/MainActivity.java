@@ -35,7 +35,8 @@ import com.mobandme.app.model.MyModel;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private MyModel myModel = new MyModel();
+    private MyModel myModel  = new MyModel();
+    private MyModel myModel2 = new MyModel();
     private ViewGroup rootView;
     private Binder myModelViewBinder;
 
@@ -71,7 +72,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void bindViewToModel() {
-        myModelViewBinder.bindReverse();
-        Toast.makeText(this, myModel.name, Toast.LENGTH_SHORT).show();
+        myModelViewBinder.bindReverseWithModel(myModel2);
+        Toast.makeText(this, String.format("%s --> %s", myModel.name, myModel2.name), Toast.LENGTH_SHORT).show();
     }
 }
