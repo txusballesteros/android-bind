@@ -23,7 +23,7 @@
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
  */
 
-package com.mobandme.android.bind.app.parsers;
+package com.mobandme.app.parsers;
 
 import com.mobandme.android.bind.compiler.Compiler;
 import com.mobandme.android.bind.parser.DataParser;

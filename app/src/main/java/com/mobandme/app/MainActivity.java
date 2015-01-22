@@ -23,7 +23,7 @@
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
  */
 
-package com.mobandme.android.bind.app;
+package com.mobandme.app;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.mobandme.android.bind.Binder;
-import com.mobandme.android.bind.app.model.MyModel;
+import com.mobandme.app.model.MyModel;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 

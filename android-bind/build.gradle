@@ -11,7 +11,7 @@ group = "com.mobandme"                                                // Maven G
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-    resourcePrefix "android_binding__"
+    resourcePrefix "android_bind__"
 
     defaultConfig {
         minSdkVersion 8

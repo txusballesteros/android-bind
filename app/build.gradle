@@ -1,11 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        releaseSign {
+            keyAlias 'android_bind'
+            keyPassword 'android1234'
+            storeFile file('../signing/android_bind_sign.jks')
+            storePassword 'android1234'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
-        applicationId "com.mobandme.android.bind.app"
+        applicationId "com.mobandme.app"
         minSdkVersion 8
         targetSdkVersion 21
         versionCode 1
@@ -13,8 +20,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseSign
         }
     }
 }

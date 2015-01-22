@@ -23,15 +23,13 @@
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
  */
 
-package com.mobandme.android.bind.app.parsers;
+package com.mobandme.android.bind.annotations;
 
-import com.mobandme.android.bind.compiler.Compiler;
-import com.mobandme.android.bind.parser.DataParser;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class LowerStringParser extends DataParser {
-
-    @Override
-    public Object onParse(Compiler.Mapping mapping, Object value, int direction) {
-        return value.toString().toLowerCase();
-    }
-}
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface BindableModel { }

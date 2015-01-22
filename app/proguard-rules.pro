@@ -15,3 +15,13 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep class com.mobandme.android.bind.** { *; }
+-keep class * extends com.mobandme.android.bind.parser.DataParser { *; }
+-keep class * extends com.mobandme.android.bind.parser.DataBinder { *; }
+-keep @com.mobandme.android.bind.annotations.BindableModel public class * { *; }
+-keepnames class * {
+    @com.mobandme.android.bind.annotations.BindTo *;
+    @com.mobandme.android.bind.annotations.Bindings *;
+    @com.mobandme.android.bind.annotations.BindableModel *;
+}

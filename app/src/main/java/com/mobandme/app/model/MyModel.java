@@ -23,20 +23,22 @@
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
  */
 
-package com.mobandme.android.bind.app.model;
+package com.mobandme.app.model;
 
 import com.mobandme.android.bind.annotations.BindTo;
+import com.mobandme.android.bind.annotations.BindableModel;
 import com.mobandme.android.bind.annotations.Bindings;
-import com.mobandme.android.bind.app.R;
-import com.mobandme.android.bind.app.parsers.CurrencyParser;
-import com.mobandme.android.bind.app.parsers.DateParser;
-import com.mobandme.android.bind.app.parsers.LowerStringParser;
-import com.mobandme.android.bind.app.parsers.UpperStringParser;
+import com.mobandme.app.R;
+import com.mobandme.app.parsers.CurrencyParser;
+import com.mobandme.app.parsers.DateParser;
+import com.mobandme.app.parsers.LowerStringParser;
+import com.mobandme.app.parsers.UpperStringParser;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+@BindableModel
 public class MyModel {
 
     @BindTo(viewId = R.id.active)
