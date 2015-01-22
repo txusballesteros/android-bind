@@ -40,7 +40,7 @@ public class CurrencyParser extends DataParser {
         if (direction == Binder.DIRECTION_OBJECT_TO_VIEWS) {
             return String.format("%.02f €", value);
         } else {
-            String cleanValue = value.toString().replace('€', ' ').trim();
+            String cleanValue = value.toString().replace('€', ' ').replace(',', '.').trim();
             return Float.parseFloat(cleanValue);
         }
     }
