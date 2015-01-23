@@ -5,7 +5,7 @@ android {
         releaseSign {
             keyAlias 'android_bind'
             keyPassword 'android1234'
-            storeFile file('../signing/android_bind_sign.jks')
+            storeFile file('./signing/android_bind_sign.jks')
             storePassword 'android1234'
         }
     }
