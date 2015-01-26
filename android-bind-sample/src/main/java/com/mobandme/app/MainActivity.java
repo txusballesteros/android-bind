@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.mobandme.android.bind.Binder;
+import com.mobandme.android.bind.compiler.AbstractModelViewMapper;
 import com.mobandme.app.model.MyModel;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -68,6 +69,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void bindModelToView() {
+        AbstractModelViewMapper mapper = AbstractModelViewMapper.getMapper();
+        mapper.test(this);
+
         myModelViewBinder.bind();
     }
 
