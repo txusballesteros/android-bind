@@ -1,100 +1,20 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
-// This is the library version used when deploying the artifact
-version = "1.0.3"
-def siteUrl = 'https://github.com/txusballesteros/android-binding'    // Homepage URL of the library
-def gitUrl = 'https://github.com/txusballesteros/android-binding.git' // Git repository URL
-group = "com.mobandme"                                                // Maven Group ID for the artifact
-
-android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
-    resourcePrefix "android_bind__"
-
-    defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 21
-        versionCode 2
-        versionName version
-    }
-
-    buildTypes {
-    }
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "android-binding"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-
-                // Add your description here
-                name 'Android Binding Lib'
-                url siteUrl
-
-                // Set your license
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'txusballesteros'
-                        name 'Txus Ballesteros'
-                        email 'txus.ballesteros@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
+buildscript {
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jimdo.gradle:gradle-apt-plugin:0.5-SNAPSHOT'
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:1.12.+'
     }
 }
+
+apply plugin: 'java'
+apply plugin: 'provided-base'
+apply plugin: 'apt'
 
 dependencies {
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+    provided 'com.google.android:android:4.0.1.2'
 }

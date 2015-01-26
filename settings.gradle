@@ -1,1 +1,1 @@
-include ':android-bind', ':android-bind-sample'
+include ':android-bind-sample', ':android-bind'
