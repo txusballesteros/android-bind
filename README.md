@@ -6,6 +6,8 @@ This library helps to you on the process related to data binds between your mode
 
 [ ![Download](https://api.bintray.com/packages/txusballesteros/maven/android-binding/images/download.svg) ](https://bintray.com/txusballesteros/maven/android-binding/_latestVersion)
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android%20Binding%20Library-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1456)
+
 ## How to use
 
 ```java
